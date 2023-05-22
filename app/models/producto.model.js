@@ -41,7 +41,22 @@ Producto.findById = (data, result) => {
     result({ kind: "not_found" }, null);
   });
 };
+//metodo encargado de listar producto con mayor o menor precio
+//se debe enviar el valor del orden si es mayor (desc) si es menor (asc)
+Producto.findMenorOrMayorPrecio = (orden, result) => {
+  let query = `SELECT * FROM productos order by PRECIO_ESTIMADO ${orden} limit 1`;
 
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("productos: ", res);
+    result(null, res);
+  });
+};
 //metodo encargado de listar todos los productos
 Producto.getAll = (title, result) => {
   let query = "SELECT * FROM productos";

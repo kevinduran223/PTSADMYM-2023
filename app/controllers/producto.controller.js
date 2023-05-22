@@ -34,6 +34,23 @@ exports.findOne = (req, res) => {
   });
 };
 
+// metodo encargado de retornar el producto con menor precio
+exports.findMenorOrMayorPrecio = (req, res) => {
+  Producto.findMenorOrMayorPrecio(req.params.orden, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Producto no encontrado con el dato ${req.params.orden}`
+        });
+      } else {
+        res.status(500).send({
+          message: `Error al recuperar el producto con dato ${req.params.orden}`
+        });
+      }
+    } else res.send(data);
+  });
+};
+
  
  
 // metodo encargado de realizar el scraping
